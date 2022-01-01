@@ -4,6 +4,7 @@ import { GetServerSidePropsContext } from 'next';
 import { Article as ArticleType } from '../../../types';
 import ArticleComponent from '../../../components/Article';
 import Link from 'next/link';
+import { getEnvironmentVariables } from '../../../config/env';
 
 interface ArticleProps {
   article?: ArticleType;
@@ -28,7 +29,8 @@ export default function Article({ article }: ArticleProps) {
 }
 
 export const getStaticPaths = async () => {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
+  const env = getEnvironmentVariables();
+  const res = await fetch(`${env.host}/api/posts`);
   const articles = await res.json();
   const ids = articles.map((item: ArticleType) => item.id);
   const paths = ids.map((id: number) => ({
@@ -41,11 +43,10 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (ctx: GetServerSidePropsContext) => {
+  const env = getEnvironmentVariables();
   let article: ArticleType | undefined;
   if (ctx?.params?.id) {
-    const res = await fetch(
-      `https://jsonplaceholder.typicode.com/posts/${ctx.params.id}`
-    );
+    const res = await fetch(`${env.host}/api/posts/${ctx.params.id}`);
     article = await res.json();
   }
 

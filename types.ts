@@ -6,3 +6,7 @@ export interface Article {
 }
 
 export type ListOfArticles = Array<Article>;
+
+export interface MessageResponse {
+  message: string;
+}
