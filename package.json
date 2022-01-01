@@ -5,7 +5,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier:format": "prettier --write .",
+    "prettier:verify": "prettier --check ."
   },
   "dependencies": {
     "next": "12.0.7",
@@ -17,6 +19,16 @@
     "@types/react": "17.0.38",
     "eslint": "8.6.0",
     "eslint-config-next": "12.0.7",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.2",
     "typescript": "4.5.4"
+  },
+  "lint-staged": {
+    "**/*": [
+      "prettier --write --ignore-unknown",
+      "eslint ."
+    ]
   }
 }
