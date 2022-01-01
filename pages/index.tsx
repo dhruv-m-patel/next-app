@@ -1,4 +1,6 @@
 import type { NextPage } from 'next';
+import React from 'react';
+import ArticleList from '../components/ArticleList';
 import Header from '../components/Header';
 import { ListOfArticles } from '../types';
 
@@ -7,8 +9,12 @@ interface HomePageProps {
 }
 
 const Home: NextPage<HomePageProps> = ({ articles }) => {
-  console.log(articles);
-  return <Header title="Welcome to Next.js!" />;
+  return (
+    <React.Fragment>
+      <Header title="Welcome to Next.js!" />
+      <ArticleList articles={articles} />
+    </React.Fragment>
+  );
 };
 
 export const getStaticProps = async () => {
