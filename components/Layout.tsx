@@ -1,9 +1,14 @@
+import React from 'react';
 import styles from '../styles/Layout.module.css';
+import Nav from './Nav';
 
 const Layout = ({ children }: { children: React.ReactNode | undefined }) => (
-  <div className={styles.container}>
-    <main className={styles.main}>{children}</main>
-  </div>
+  <React.Fragment>
+    <Nav />
+    <div className={styles.container}>
+      <main className={styles.main}>{children}</main>
+    </div>
+  </React.Fragment>
 );
 
 export default Layout;
