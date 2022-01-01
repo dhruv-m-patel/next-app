@@ -27,7 +27,20 @@ export default function Article({ article }: ArticleProps) {
   );
 }
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+export const getStaticPaths = async () => {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
+  const articles = await res.json();
+  const ids = articles.map((item: ArticleType) => item.id);
+  const paths = ids.map((id: number) => ({
+    params: { id: id.toString() },
+  }));
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps = async (ctx: GetServerSidePropsContext) => {
   let article: ArticleType | undefined;
   if (ctx?.params?.id) {
     const res = await fetch(
