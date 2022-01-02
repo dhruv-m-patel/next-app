@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { GetServerSidePropsContext, NextPage } from 'next';
+import Link from 'next/link';
 // import { useRouter } from 'next/router';
 import { Article as ArticleType } from '../../../types';
 import ArticleComponent from '../../../components/Article';
-import Link from 'next/link';
 import { getEnvironmentVariables } from '../../../config/env';
 
 interface ArticleProps {
   article?: ArticleType;
 }
 
-const Article = ({ article }: ArticleProps): NextPage<ArticleProps> => {
+const Article: NextPage<ArticleProps> = ({ article }) => {
   // Below is how you can get query params on client side
   // const router = useRouter();
   // const { id } = router.query;
@@ -20,15 +20,15 @@ const Article = ({ article }: ArticleProps): NextPage<ArticleProps> => {
     }
   }, [article]);
 
-  return (
-    !!article && (
-      <React.Fragment>
-        <ArticleComponent item={article as ArticleType} />
-        <p />
-        <p />
-        <Link href="/">Go Back</Link>
-      </React.Fragment>
-    )
+  return article ? (
+    <React.Fragment>
+      <ArticleComponent item={article as ArticleType} />
+      <p />
+      <p />
+      <Link href="/">Go Back</Link>
+    </React.Fragment>
+  ) : (
+    <React.Fragment />
   );
 };
 
@@ -47,15 +47,14 @@ const Article = ({ article }: ArticleProps): NextPage<ArticleProps> => {
 // };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  let article: ArticleType | undefined;
   const env = getEnvironmentVariables();
   if (ctx?.params?.id) {
     const res = await fetch(`${env.host}/api/posts/${ctx.params.id}`);
     if (res.status === 200) {
-      const article = await res.json();
-      return { props: { article } };
-    } else {
-      return { props: {} };
+      article = await res.json();
     }
+    return { props: { article } };
   }
 };
 
