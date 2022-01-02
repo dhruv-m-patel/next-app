@@ -9,14 +9,12 @@ interface HomePageProps {
   articles: ListOfArticles;
 }
 
-const Home: NextPage<HomePageProps> = ({ articles }) => {
-  return (
-    <React.Fragment>
-      <Header title="Welcome Home!" />
-      <ArticleList articles={articles} />
-    </React.Fragment>
-  );
-};
+const Home: NextPage<HomePageProps> = ({ articles }) => (
+  <React.Fragment>
+    <Header title="Welcome Home!" />
+    <ArticleList articles={articles} />
+  </React.Fragment>
+);
 
 export const getStaticProps = async () => {
   const env = getEnvironmentVariables();
