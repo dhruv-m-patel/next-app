@@ -16,7 +16,7 @@ const Home: NextPage<HomePageProps> = ({ articles }) => (
   </React.Fragment>
 );
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const env = getEnvironmentVariables();
   const res = await fetch(`${env.host}/api/posts?limit=6`);
   const articles = await res.json();

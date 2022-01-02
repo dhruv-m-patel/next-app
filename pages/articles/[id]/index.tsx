@@ -1,5 +1,5 @@
-import React from 'react';
-import { GetServerSidePropsContext } from 'next';
+import React, { useEffect } from 'react';
+import { GetServerSidePropsContext, NextPage } from 'next';
 // import { useRouter } from 'next/router';
 import { Article as ArticleType } from '../../../types';
 import ArticleComponent from '../../../components/Article';
@@ -10,47 +10,53 @@ interface ArticleProps {
   article?: ArticleType;
 }
 
-export default function Article({ article }: ArticleProps) {
+const Article = ({ article }: ArticleProps): NextPage<ArticleProps> => {
   // Below is how you can get query params on client side
   // const router = useRouter();
   // const { id } = router.query;
-  if (!article) {
-    return null;
-  }
+  useEffect(() => {
+    if (!article || !Object.keys(article).length) {
+      window.location.href = '/404';
+    }
+  }, [article]);
 
   return (
-    <React.Fragment>
-      <ArticleComponent item={article} />
-      <p />
-      <p />
-      <Link href="/">Go Back</Link>
-    </React.Fragment>
+    !!article && (
+      <React.Fragment>
+        <ArticleComponent item={article as ArticleType} />
+        <p />
+        <p />
+        <Link href="/">Go Back</Link>
+      </React.Fragment>
+    )
   );
-}
-
-export const getStaticPaths = async () => {
-  const env = getEnvironmentVariables();
-  const res = await fetch(`${env.host}/api/posts`);
-  const articles = await res.json();
-  const ids = articles.map((item: ArticleType) => item.id);
-  const paths = ids.map((id: number) => ({
-    params: { id: id.toString() },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
 };
 
-export const getStaticProps = async (ctx: GetServerSidePropsContext) => {
+// export const getStaticPaths = async () => {
+//   const env = getEnvironmentVariables();
+//   const res = await fetch(`${env.host}/api/posts`);
+//   const articles = await res.json();
+//   const ids = articles.map((item: ArticleType) => item.id);
+//   const paths = ids.map((id: number) => ({
+//     params: { id: id.toString() },
+//   }));
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const env = getEnvironmentVariables();
-  let article: ArticleType | undefined;
   if (ctx?.params?.id) {
     const res = await fetch(`${env.host}/api/posts/${ctx.params.id}`);
-    article = await res.json();
+    if (res.status === 200) {
+      const article = await res.json();
+      return { props: { article } };
+    } else {
+      return { props: {} };
+    }
   }
-
-  return {
-    props: { article },
-  };
 };
+
+export default Article;

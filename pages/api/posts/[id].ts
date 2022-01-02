@@ -15,11 +15,10 @@ export default async function handler(
     const data = await fetch(
       `https://jsonplaceholder.typicode.com/posts/${articleId}`
     );
-    if (!data) {
+    const post = await data.json();
+    if (!post || !Object.keys(post).length) {
       return res.status(404).send({ message: 'Post not found' });
     }
-
-    const post = await data.json();
     res.send(post);
   } catch (err) {
     res.status(500).send({ message: 'Unable to fetch post' });
