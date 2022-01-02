@@ -1,6 +1,6 @@
 import React from 'react';
 import { Article as ArticleType } from '../types';
-import styles from '../styles/Article.module.css';
+import styles from './Article.module.css';
 import Link from 'next/link';
 
 interface ArticleProps {

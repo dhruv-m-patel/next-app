@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListOfArticles } from '../types';
 import Article from './Article';
-import styles from '../styles/ArticleList.module.css';
+import styles from './ArticleList.module.css';
 
 interface ArticleListProps {
   articles: ListOfArticles;

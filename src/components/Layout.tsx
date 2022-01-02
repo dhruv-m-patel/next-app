@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../styles/Layout.module.css';
 import Nav from './Nav';
 import Meta from './Meta';
+import styles from './Layout.module.css';
 
 const Layout = ({ children }: { children: React.ReactNode | undefined }) => (
   <React.Fragment>
