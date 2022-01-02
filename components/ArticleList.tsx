@@ -6,12 +6,13 @@ import styles from '../styles/ArticleList.module.css';
 interface ArticleListProps {
   articles: ListOfArticles;
 }
-export default function ArticleList({ articles }: ArticleListProps) {
-  return (
-    <div className={styles.grid}>
-      {articles.map((item) => (
-        <Article key={item.id} item={item} link />
-      ))}
-    </div>
-  );
-}
+
+const ArticleList = ({ articles }: ArticleListProps): JSX.Element => (
+  <div className={styles.grid}>
+    {articles.map((item) => (
+      <Article key={item.id} item={item} link />
+    ))}
+  </div>
+);
+
+export default ArticleList;
