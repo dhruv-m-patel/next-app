@@ -9,7 +9,7 @@ interface ArticleProps {
 }
 
 const Article = ({ item, link = false }: ArticleProps): JSX.Element => (
-  <div className={styles.card}>
+  <article className={styles.card}>
     {link ? (
       <Link href="/articles/[id]" as={`/articles/${item.id}`} passHref>
         <h2 className={styles.link}>{item.title}</h2>
@@ -18,7 +18,7 @@ const Article = ({ item, link = false }: ArticleProps): JSX.Element => (
       <h2>{item.title}</h2>
     )}
     <p>{item.body}</p>
-  </div>
+  </article>
 );
 
 export default Article;

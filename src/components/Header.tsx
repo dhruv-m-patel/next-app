@@ -7,10 +7,10 @@ interface HeaderProps {
 }
 
 const Header = ({ title }: HeaderProps): JSX.Element => (
-  <div>
+  <header>
     <Meta title={title} description={title} />
     <h1 className={styles.title}>{title}</h1>
-  </div>
+  </header>
 );
 
 export default Header;

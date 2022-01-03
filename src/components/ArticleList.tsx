@@ -8,11 +8,11 @@ interface ArticleListProps {
 }
 
 const ArticleList = ({ articles }: ArticleListProps): JSX.Element => (
-  <div className={styles.grid}>
+  <section className={styles.grid}>
     {articles.map((item) => (
       <Article key={item.id} item={item} link />
     ))}
-  </div>
+  </section>
 );
 
 export default ArticleList;
